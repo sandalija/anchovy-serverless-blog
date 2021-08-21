@@ -1,0 +1,358 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>serverless-express-blog</title>
+	<meta name="description" content="Documentation for serverless-express-blog">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">serverless-express-blog</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<h1>serverless-express-blog</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
+					<h2>Documentation</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/serverless/examples/blob/master/aws-node-rest-api-typescript/package.json">https://github.com/serverless/examples/blob/master/aws-node-rest-api-typescript/package.json</a></li>
+				</ul>
+				<a href="#linting" id="linting" style="color: inherit; text-decoration: none;">
+					<h2>Linting</h2>
+				</a>
+				<a href="#comments-amp-and-docs" id="comments-amp-and-docs" style="color: inherit; text-decoration: none;">
+					<h2>Comments &amp; and docs</h2>
+				</a>
+				<ul>
+					<li><a href="https://tsdoc.org/">https://tsdoc.org/</a></li>
+					<li>typeDoc</li>
+				</ul>
+				<a href="#node-js-aws-params" id="node-js-aws-params" style="color: inherit; text-decoration: none;">
+					<h3>Node js aws params</h3>
+				</a>
+				<ul>
+					<li><a href="https://docs.aws.amazon.com/lambda/latest/dg/nodejs-handler.html">https://docs.aws.amazon.com/lambda/latest/dg/nodejs-handler.html</a><blockquote>
+							<p>The third argument, callback, is a function that you can call in non-async handlers to send a response. The callback function takes two arguments: an Error and a response. When you call it, Lambda waits for the event loop to be empty and then returns the response or error to the invoker. The response object must be compatible with JSON.stringify.</p>
+						</blockquote>
+					</li>
+				</ul>
+				<a href="#books" id="books" style="color: inherit; text-decoration: none;">
+					<h2>Books</h2>
+				</a>
+				<p>Designing Web APIs - OReilly</p>
+				<a href="#comments---post--one-to-many" id="comments---post--one-to-many" style="color: inherit; text-decoration: none;">
+					<h2>Comments - Post ( One to many)</h2>
+				</a>
+				<p><a href="https://www.alexdebrie.com/posts/dynamodb-one-to-many/">https://www.alexdebrie.com/posts/dynamodb-one-to-many/</a></p>
+				<ul>
+					<li>Sort key is a timestamp + random number. Para evitar colisiones al milisegundo</li>
+				</ul>
+				<a href="#rm--rf-build-on-deploy" id="rm--rf-build-on-deploy" style="color: inherit; text-decoration: none;">
+					<h2>rm -rf .build on deploy</h2>
+				</a>
+				<p><a href="https://github.com/FormidableLabs/serverless-jetpack/issues/74#issuecomment-587746693">https://github.com/FormidableLabs/serverless-jetpack/issues/74#issuecomment-587746693</a></p>
+				<a href="#local-dynamo-db" id="local-dynamo-db" style="color: inherit; text-decoration: none;">
+					<h2>Local Dynamo DB</h2>
+				</a>
+				<p>sls dynamodb start --migrate</p>
+				<a href="#conectar-nosql-workbench-con-el-entorno-local" id="conectar-nosql-workbench-con-el-entorno-local" style="color: inherit; text-decoration: none;">
+					<h3>Conectar NoSQL WOrkbench con el entorno local</h3>
+				</a>
+				<p><a href="https://blog.phillipninan.com/using-nosql-workbench-for-a-local-dynamodb?guid=none&amp;deviceId=c94371d7-46fe-4772-9f03-c2cff0573db0">https://blog.phillipninan.com/using-nosql-workbench-for-a-local-dynamodb?guid=none&amp;deviceId=c94371d7-46fe-4772-9f03-c2cff0573db0</a></p>
+				<a href="#problemas-con-el-schema" id="problemas-con-el-schema" style="color: inherit; text-decoration: none;">
+					<h2>Problemas con el schema</h2>
+				</a>
+				<ul>
+					<li>Quitar de la definición los atributos que no son claves
+					<a href="https://qastack.mx/programming/30866030/number-of-attributes-in-key-schema-must-match-the-number-of-attributes-defined-i">https://qastack.mx/programming/30866030/number-of-attributes-in-key-schema-must-match-the-number-of-attributes-defined-i</a></li>
+				</ul>
+				<a href="#http-api-serverless-framework" id="http-api-serverless-framework" style="color: inherit; text-decoration: none;">
+					<h2>HTTP API Serverless Framework</h2>
+				</a>
+				<p><a href="https://github.com/serverless/serverless/issues/7052">https://github.com/serverless/serverless/issues/7052</a></p>
+				<a href="#lmabda-roles" id="lmabda-roles" style="color: inherit; text-decoration: none;">
+					<h2>Lmabda roles</h2>
+				</a>
+				<ul>
+					<li>serverless framework crea roles por defecto. Hay que añadirle permisos para acceder y usar DynamoDB</li>
+				</ul>
+				<a href="#all-serverlessyml-config" id="all-serverlessyml-config" style="color: inherit; text-decoration: none;">
+					<h2>All serverless.yml config</h2>
+				</a>
+				<p><a href="https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml/">https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml/</a></p>
+				<a href="#ref-en-serverlessyml" id="ref-en-serverlessyml" style="color: inherit; text-decoration: none;">
+					<h2>Ref en serverless.yml</h2>
+				</a>
+				<p><a href="https://docs.aws.amazon.com/es_es/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref.html">https://docs.aws.amazon.com/es_es/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref.html</a></p>
+				<a href="#fn-join-en-serverless-yml" id="fn-join-en-serverless-yml" style="color: inherit; text-decoration: none;">
+					<h2>Fn join en serverless-yml</h2>
+				</a>
+				<p><a href="https://docs.aws.amazon.com/es_es/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-join.html">https://docs.aws.amazon.com/es_es/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-join.html</a></p>
+				<a href="#kid-en-los-token-de-auth" id="kid-en-los-token-de-auth" style="color: inherit; text-decoration: none;">
+					<h2>Kid en los token de auth</h2>
+				</a>
+				<p>Se usa como pista pasa saber que secreto de AWS ha firmado: <a href="https://datatracker.ietf.org/doc/html/draft-ietf-jose-json-web-key-41#section-4.5">https://datatracker.ietf.org/doc/html/draft-ietf-jose-json-web-key-41#section-4.5</a>
+				<a href="https://docs.aws.amazon.com/es_es/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-access-token.html">https://docs.aws.amazon.com/es_es/cognito/latest/developerguide/amazon-cognito-user-pools-using-the-access-token.html</a></p>
+				<a href="#exposing-env-variables-on-next" id="exposing-env-variables-on-next" style="color: inherit; text-decoration: none;">
+					<h2>Exposing env variables on Next</h2>
+				</a>
+				<p>add NEXT_PUBLIC: <a href="https://nextjs.org/docs/basic-features/environment-variables">https://nextjs.org/docs/basic-features/environment-variables</a></p>
+				<a href="#create-amplify" id="create-amplify" style="color: inherit; text-decoration: none;">
+					<h2>Create Amplify</h2>
+				</a>
+				<pre><code class="language-bash"><span style="color: #000000">sergio@ideapad-s340 ~/repos/serverless-express-blog/client/next-blog 22:42 [main] $ amplify init</span>
+<span style="color: #000000">Note: It is recommended to run this </span><span style="color: #795E26">command</span><span style="color: #000000"> from the root of your app directory</span>
+<span style="color: #000000">? Enter a name </span><span style="color: #AF00DB">for</span><span style="color: #000000"> the project nextblog</span>
+<span style="color: #000000">The following configuration will be applied:</span>
+
+<span style="color: #000000">Project information</span>
+<span style="color: #000000">| Name: nextblog</span>
+<span style="color: #000000">| Environment: dev</span>
+<span style="color: #000000">| Default editor: Visual Studio Code</span>
+<span style="color: #000000">| App type: javascript</span>
+<span style="color: #000000">| Javascript framework: react</span>
+<span style="color: #000000">| Source Directory Path: src</span>
+<span style="color: #000000">| Distribution Directory Path: build</span>
+<span style="color: #000000">| Build Command: npm run-script build</span>
+<span style="color: #000000">| Start Command: npm run-script start</span>
+
+<span style="color: #000000">? Initialize the project with the above configuration? Yes</span>
+<span style="color: #000000">Using default provider  awscloudformation</span>
+<span style="color: #000000">? Select the authentication method you want to use: AWS profile</span>
+
+<span style="color: #000000">For more information on AWS Profiles, see:</span>
+<span style="color: #000000">https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html</span>
+
+<span style="color: #000000">? Please choose the profile you want to use</span>
+<span style="color: #000000">  risbar</span>
+<span style="color: #000000">❯ default</span>
+<span style="color: #000000">  eb-cli</span>
+<span style="color: #000000">sergio@ideapad-s340 ~/repos/serverless-express-blog/client/next-blog 22:43 [main] $ amplify init</span>
+<span style="color: #000000">Note: It is recommended to run this </span><span style="color: #795E26">command</span><span style="color: #000000"> from the root of your app directory</span>
+<span style="color: #000000">? Enter a name </span><span style="color: #AF00DB">for</span><span style="color: #000000"> the project nextblog</span>
+<span style="color: #000000">The following configuration will be applied:</span>
+
+<span style="color: #000000">Project information</span>
+<span style="color: #000000">| Name: nextblog</span>
+<span style="color: #000000">| Environment: dev</span>
+<span style="color: #000000">| Default editor: Visual Studio Code</span>
+<span style="color: #000000">| App type: javascript</span>
+<span style="color: #000000">| Javascript framework: react</span>
+<span style="color: #000000">| Source Directory Path: src</span>
+<span style="color: #000000">| Distribution Directory Path: build</span>
+<span style="color: #000000">| Build Command: npm run-script build</span>
+<span style="color: #000000">| Start Command: npm run-script start</span>
+
+<span style="color: #000000">? Initialize the project with the above configuration? Yes</span>
+<span style="color: #000000">Using default provider  awscloudformation</span>
+<span style="color: #000000">? Select the authentication method you want to use: AWS access keys</span>
+<span style="color: #000000">? accessKeyId:  ********************</span>
+<span style="color: #000000">? secretAccessKey:  [hidden]</span>
+<span style="color: #000000">sergio@ideapad-s340 ~/repos/serverless-express-blog/client/next-blog 22:45 [main] $ amplify init</span>
+<span style="color: #000000">Note: It is recommended to run this </span><span style="color: #795E26">command</span><span style="color: #000000"> from the root of your app directory</span>
+<span style="color: #000000">? Enter a name </span><span style="color: #AF00DB">for</span><span style="color: #000000"> the project nextblog</span>
+<span style="color: #000000">The following configuration will be applied:</span>
+
+<span style="color: #000000">Project information</span>
+<span style="color: #000000">| Name: nextblog</span>
+<span style="color: #000000">| Environment: dev</span>
+<span style="color: #000000">| Default editor: Visual Studio Code</span>
+<span style="color: #000000">| App type: javascript</span>
+<span style="color: #000000">| Javascript framework: react</span>
+<span style="color: #000000">| Source Directory Path: src</span>
+<span style="color: #000000">| Distribution Directory Path: build</span>
+<span style="color: #000000">| Build Command: npm run-script build</span>
+<span style="color: #000000">| Start Command: npm run-script start</span>
+
+<span style="color: #000000">? Initialize the project with the above configuration? Yes</span>
+<span style="color: #000000">Using default provider  awscloudformation</span>
+<span style="color: #000000">? Select the authentication method you want to use: AWS access keys</span>
+<span style="color: #000000">? accessKeyId:  ********************</span>
+<span style="color: #000000">? secretAccessKey:  ****************************************</span>
+<span style="color: #000000">? region:  eu-west-1</span>
+<span style="color: #000000">Adding backend environment dev to AWS Amplify Console app: dsjti32veelbx</span>
+<span style="color: #000000">⠴ Initializing project </span><span style="color: #AF00DB">in</span><span style="color: #000000"> the cloud...</span>
+
+<span style="color: #000000">CREATE_IN_PROGRESS amplify-nextblog-dev-224614 AWS::CloudFormation::Stack Mon Aug 16 2021 22:46:18 GMT+0200 (GMT+02:00) User Initiated</span>
+<span style="color: #000000">CREATE_IN_PROGRESS DeploymentBucket            AWS::S3::Bucket            Mon Aug 16 2021 22:46:21 GMT+0200 (GMT+02:00)</span>
+<span style="color: #000000">CREATE_IN_PROGRESS UnauthRole                  AWS::IAM::Role             Mon Aug 16 2021 22:46:21 GMT+0200 (GMT+02:00)</span>
+<span style="color: #000000">CREATE_IN_PROGRESS AuthRole                    AWS::IAM::Role             Mon Aug 16 2021 22:46:22 GMT+0200 (GMT+02:00)</span>
+<span style="color: #000000">CREATE_IN_PROGRESS UnauthRole                  AWS::IAM::Role             Mon Aug 16 2021 22:46:22 GMT+0200 (GMT+02:00) Resource creation Initiated</span>
+<span style="color: #000000">CREATE_IN_PROGRESS DeploymentBucket            AWS::S3::Bucket            Mon Aug 16 2021 22:46:23 GMT+0200 (GMT+02:00) Resource creation Initiated</span>
+<span style="color: #000000">CREATE_IN_PROGRESS AuthRole                    AWS::IAM::Role             Mon Aug 16 2021 22:46:23 GMT+0200 (GMT+02:00) Resource creation Initiated</span>
+<span style="color: #000000">⠼ Initializing project </span><span style="color: #AF00DB">in</span><span style="color: #000000"> the cloud...</span>
+
+<span style="color: #000000">CREATE_COMPLETE UnauthRole AWS::IAM::Role Mon Aug 16 2021 22:46:38 GMT+0200 (GMT+02:00)</span>
+<span style="color: #000000">⠸ Initializing project </span><span style="color: #AF00DB">in</span><span style="color: #000000"> the cloud...</span>
+
+<span style="color: #000000">CREATE_COMPLETE AuthRole AWS::IAM::Role Mon Aug 16 2021 22:46:38 GMT+0200 (GMT+02:00)</span>
+<span style="color: #000000">⠴ Initializing project </span><span style="color: #AF00DB">in</span><span style="color: #000000"> the cloud...</span>
+
+<span style="color: #000000">CREATE_COMPLETE DeploymentBucket            AWS::S3::Bucket            Mon Aug 16 2021 22:46:44 GMT+0200 (GMT+02:00)</span>
+<span style="color: #000000">CREATE_COMPLETE amplify-nextblog-dev-224614 AWS::CloudFormation::Stack Mon Aug 16 2021 22:46:46 GMT+0200 (GMT+02:00)</span>
+<span style="color: #000000">✔ Successfully created initial AWS cloud resources </span><span style="color: #AF00DB">for</span><span style="color: #000000"> deployments.</span>
+<span style="color: #000000">✔ Initialized provider successfully.</span>
+<span style="color: #000000">Initialized your environment successfully.</span>
+
+<span style="color: #000000">Your project has been successfully initialized and connected to the cloud!</span>
+
+<span style="color: #000000">Some next steps:</span>
+<span style="color: #A31515">&quot;amplify status&quot;</span><span style="color: #000000"> will show you what you</span><span style="color: #A31515">&#039;ve added already and if it&#039;</span><span style="color: #000000">s locally configured or deployed</span>
+<span style="color: #A31515">&quot;amplify add &lt;category&gt;&quot;</span><span style="color: #000000"> will allow you to add features like user login or a backend API</span>
+<span style="color: #A31515">&quot;amplify push&quot;</span><span style="color: #000000"> will build all your </span><span style="color: #0000FF">local</span><span style="color: #000000"> backend resources and provision it </span><span style="color: #AF00DB">in</span><span style="color: #000000"> the cloud</span>
+<span style="color: #A31515">&quot;amplify console&quot;</span><span style="color: #000000"> to open the Amplify Console and view your project status</span>
+<span style="color: #A31515">&quot;amplify publish&quot;</span><span style="color: #000000"> will build all your </span><span style="color: #0000FF">local</span><span style="color: #000000"> backend and frontend resources (if you have hosting category added) and provision it </span><span style="color: #AF00DB">in</span><span style="color: #000000"> the cloud</span>
+
+<span style="color: #000000">Pro tip:</span>
+<span style="color: #000000">Try </span><span style="color: #A31515">&quot;amplify add api&quot;</span><span style="color: #000000"> to create a backend API and </span><span style="color: #AF00DB">then</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;amplify publish&quot;</span><span style="color: #000000"> to deploy everything</span>
+</code></pre>
+				<a href="#local-storage" id="local-storage" style="color: inherit; text-decoration: none;">
+					<h2>Local Storage</h2>
+				</a>
+				<ul>
+					<li>That is, the data stored in localStorage persists until explicitly deleted. Changes made are saved and available for all current and future visits to the site.</li>
+					<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage</a></li>
+				</ul>
+				<a href="#seo-checkklist" id="seo-checkklist" style="color: inherit; text-decoration: none;">
+					<h2>SEO Checkklist</h2>
+				</a>
+				<p><a href="https://postcron.com/es/blog/seo-para-blogs-la-guia-basica/">https://postcron.com/es/blog/seo-para-blogs-la-guia-basica/</a>
+				Luego de este “checklist”, desarrollamos más en detalle cada una de sus puntos:</p>
+				<p>Al menos una vez en el título principal (H1).</p>
+				<p>Al menos en uno o dos headings o subtítulos.</p>
+				<p>Al menos 3 veces en el cuerpo del artículo.</p>
+				<p>Al que una vez estén marcadas en “negritas” y en “itálica”</p>
+				<p>Al menos una vez en el “Alt” de una imagen (más abajo te muestro como hacerlo y por qué)</p>
+				<p>Una vez en el URL</p>
+				<p>Al menos una vez en la Meta descripción.</p>
+				<a href="#unknown-attributes" id="unknown-attributes" style="color: inherit; text-decoration: none;">
+					<h2>Unknown attributes</h2>
+				</a>
+				<p><a href="https://pawelgrzybek.com/the-difference-between-any-and-unknown-type-in-typescript/#:~:text=Both%20any%20and%20unknown%20are,heck%20you%20want%20to%20it.&amp;text=The%20unknown%20is%20a%20type,to%20a%20more%20specific%20type">https://pawelgrzybek.com/the-difference-between-any-and-unknown-type-in-typescript/#:~:text=Both%20any%20and%20unknown%20are,heck%20you%20want%20to%20it.&amp;text=The%20unknown%20is%20a%20type,to%20a%20more%20specific%20type</a>.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/controllers_authorizer.html">controllers/authorizer</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/controllers_comments.html">controllers/comments</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/controllers_posts.html">controllers/posts</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/index.html">index</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/models_comments.html">models/comments</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/models_posts.html">models/posts</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/services_DynamoDB.html">services/<wbr>DynamoDB</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/types_errors.html">types/errors</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/types_interfaces_Authorization.html">types/interfaces/<wbr>Authorization</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/types_interfaces_IComment.html">types/interfaces/IComment</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/types_interfaces_IPost.html">types/interfaces/IPost</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/utils_response.html">utils/response</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/utils_strings.html">utils/strings</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

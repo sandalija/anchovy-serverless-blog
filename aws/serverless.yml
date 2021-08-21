@@ -1,0 +1,152 @@
+# serverless.yml
+
+service: anchovy-serverless-blog
+app: anchovy-serverless-blog
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: eu-west-1
+  httpApi:
+    cors: true
+    authorizers:
+      httpAuthorizerPost:
+        type: request
+        functionName: authorizerHandler
+      httpAuthorizerComments:
+        type: jwt
+        identitySource: $request.header.Authorization
+        issuerUrl: https://cognito-idp.${self:provider.region}.amazonaws.com/${self:custom.cognitoPoolId} # Pool must exist before deploy
+        audience:
+          - ${self:custom.cognitoClientId}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+            - cognito-sync:*
+            - cognito-identity:*
+            - cognito-ipd:*
+          Resource: "*"
+
+functions:
+  authorizerHandler:
+    handler: src/controllers/authorizer.handlerPost
+  createPost:
+    handler: src/controllers/posts.create
+    events:
+      - httpApi:
+          path: /posts
+          method: post
+          authorizer: httpAuthorizerPost
+  readAllPosts:
+    handler: src/controllers/posts.readAll
+    events:
+      - httpApi:
+          path: /posts
+          method: get
+  readPost:
+    handler: src/controllers/posts.read
+    events:
+      - httpApi:
+          path: /posts/{id}
+          method: get
+  deletePost:
+    handler: src/controllers/posts.remove
+    events:
+      - httpApi:
+          path: /posts/{id}
+          method: delete
+          
+  createComment:
+    handler: src/controllers/comments.create
+    events:
+      - httpApi:
+          path: /comments/{postId}
+          method: post
+          authorizer: httpAuthorizerComments
+         
+
+# The "Resources" your "Functions" use.  Raw AWS CloudFormation goes in here.
+resources: # CloudFormation template syntax from here on.
+  # https://docs.aws.amazon.com/es_es/amazondynamodb/latest/developerguide/SQLtoNoSQL.CreateTable.html
+  Resources:
+    postsTable:
+      Type: AWS::DynamoDB::Table
+      DeletionPolicy: Delete # Delete on non-production, retain in production
+      Properties:
+        TableName: ${self:provider.stage}-${self:custom.namespace}-posts
+        AttributeDefinitions: # doc attributes
+          - AttributeName: id
+            AttributeType: S
+        KeySchema: # Forman la primary key
+          - AttributeName: id # WARNING!! Cannot be modified when table is up
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    commentsTable:
+      Type: AWS::DynamoDB::Table
+      DeletionPolicy: Retain # Delete on non-production, retain in production
+      Properties:
+        TableName: ${self:provider.stage}-${self:custom.namespace}-comments
+        AttributeDefinitions: # doc attributes
+          - AttributeName: postId
+            AttributeType: S
+          - AttributeName: id
+            AttributeType: S
+        KeySchema: # Forman la primary key
+          - AttributeName: postId # WARNING!! Cannot be modified when table is up
+            KeyType: HASH
+          - AttributeName: id # WARNING!! Cannot be modified when table is up
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    HttpApi:
+      DependsOn: CognitoUserPool
+    HttpApiStage:
+      Type: AWS::ApiGatewayV2::Stage
+      Properties:
+        ApiId:
+          Ref: HttpApi
+        StageName: ${self:provider.stage}
+    CognitoUserPool:
+      Type: AWS::Cognito::UserPool 
+      Properties:
+        UserPoolName: ${self:provider.stage}-${self:custom.userPool}
+        UsernameAttributes:
+          - email
+        AutoVerifiedAttributes:
+          - email
+    CognitoUserPoolClient:
+      Type: AWS::Cognito::UserPoolClient
+      Properties:
+        ClientName: ${self:provider.stage}-${self:custom.namespace}-user-pool-client
+        UserPoolId:
+          Ref: CognitoUserPool
+        ExplicitAuthFlows:
+          - ADMIN_NO_SRP_AUTH
+        GenerateSecret: false
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+  - serverless-plugin-typescript
+
+custom:
+  namespace: anchovy
+  dynamodb:
+    stages: dev
+  userPool: ${self:custom.namespace}-user-pool
+  cognitoPoolId: eu-west-1_0gvj8yBLG
+  cognitoClientId: 5bkjus7cj3c2v36q1cg7uh0i0q
+
+# Cannot setup custom local port. See https://github.com/dherault/serverless-offline/issues/1015
