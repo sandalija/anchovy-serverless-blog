@@ -1,25 +1,38 @@
 import PostLayout from "../../components/PostLayout";
-import { getAllPostIds, getPostData } from "../../lib/posts";
+import { deletePost, getAllPostIds, getPostData } from "../../lib/posts";
 import Form from "../../components/Form";
-import { addComment } from "../../lib/posts/comments";
-import Head from 'next/head'
-import { Container, Row, Column } from "react-bootstrap";
+import { addComment } from "../../lib/comments";
+import Head from "next/head";
+import { Container, Row, Column, Button } from "react-bootstrap";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 export default function Post({ postData, error }) {
   console.log("DATA", postData);
+  const router = useRouter();
   const title = postData?.title;
   const id = postData?.id;
   const comments = postData?.comments || [];
   const body = postData?.body || "";
+  const [errorDelete, setErrorDelete] = useState("");
 
   const handleSubmit = (comment) => {
     console.log(comment);
     addComment(comment, id);
   };
 
+  const handleDelete = () => {
+    const ok = deletePost(id);
+    if (!ok) {
+      setErrorDelete("No se ha podido eliminar");
+    } else {
+      router.push("/");
+    }
+  };
+
   if (!postData) {
     return (
-      <PostLayout error={null}>
+      <PostLayout error={error}>
         <p>Post not found</p>
       </PostLayout>
     );
@@ -35,22 +48,27 @@ export default function Post({ postData, error }) {
         */}
         <meta property="og:title" content={title} key="title" />
       </Head>
-      <PostLayout error={null}>
-          <Container fluid>
-            <Row>
-              <h1>{title}</h1>
-            </Row>
-            <Row>
-              <p>{body}</p>
-            </Row>
-            
-          </Container>
-          <Container fluid>
-           <Row>
-            <p>{comments}</p> 
-            </Row>
+      <PostLayout error={error}>
+        <Container fluid>
+          <Row>
+            <h1>{title}</h1>
+          </Row>
+          <Row>
+            <p>{body}</p>
+          </Row>
+          <Row>
+            <p className="post-date">{body}</p>
+          </Row>
+        </Container>
+        <Container fluid>
+          <Row>
+            <p>{comments}</p>
+          </Row>
           <Form onSubmit={handleSubmit} title="Añade tu comentario" />
-          </Container>
+          <Button variant="outline-danger" onClick={() => handleDelete()}>
+            Delete
+          </Button>
+        </Container>
       </PostLayout>
     </>
   );

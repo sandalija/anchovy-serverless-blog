@@ -24,7 +24,7 @@ const AuthHeader = () => {
         setCreatedAt(access.iat * 1000); // parse epoch
         setError("");
       } catch (e) {
-        console.error("Papapaya", e);
+        console.error(e);
         setError(e.message);
       }
     };

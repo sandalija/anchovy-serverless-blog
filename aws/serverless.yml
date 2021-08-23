@@ -64,7 +64,8 @@ functions:
       - httpApi:
           path: /posts/{id}
           method: delete
-          
+          authorizer: httpAuthorizerPost
+
   createComment:
     handler: src/controllers/comments.create
     events:
@@ -72,7 +73,6 @@ functions:
           path: /comments/{postId}
           method: post
           authorizer: httpAuthorizerComments
-         
 
 # The "Resources" your "Functions" use.  Raw AWS CloudFormation goes in here.
 resources: # CloudFormation template syntax from here on.
@@ -119,7 +119,7 @@ resources: # CloudFormation template syntax from here on.
           Ref: HttpApi
         StageName: ${self:provider.stage}
     CognitoUserPool:
-      Type: AWS::Cognito::UserPool 
+      Type: AWS::Cognito::UserPool
       Properties:
         UserPoolName: ${self:provider.stage}-${self:custom.userPool}
         UsernameAttributes:
@@ -148,5 +148,4 @@ custom:
   userPool: ${self:custom.namespace}-user-pool
   cognitoPoolId: eu-west-1_0gvj8yBLG
   cognitoClientId: 5bkjus7cj3c2v36q1cg7uh0i0q
-
 # Cannot setup custom local port. See https://github.com/dherault/serverless-offline/issues/1015
