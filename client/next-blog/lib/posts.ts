@@ -9,12 +9,11 @@ const SERVER_ERROR_MESSAGE = "Failed";
 const postsDirectory = path.join(process.cwd(), "posts");
 
 const fetchPosts = async () => {
-  console.log("POSTS: ", process.env.NEXT_PUBLIC_API_ENDPOINT);
-  const uri = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/posts`;
+  const uri = `${process.env.API_ENDPOINT}/posts`;
   const res = await fetch(uri);
   const result = await res.json();
 
-  return result.data;
+  return result;
 };
 
 export async function getAllPostIds() {
@@ -35,15 +34,16 @@ interface IPost {
 }
 
 export async function getPostData(id): Promise<IPost> {
-  let uri = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/posts`;
+  let uri = `${process.env.API_ENDPOINT}/posts`;
   if (id) uri += `/${id}`;
+  console.log("uri", uri)
   const res = await fetch(uri, { method: "GET" });
   if (res.status === NOT_FOUND) return { error: NOT_FOUND_MESSAGE };
   else if (!res.ok) return { error: SERVER_ERROR_MESSAGE };
 
   const result = await res.json();
   console.log("RESPUESTA", result);
-  return { data: { ...result.data, id: id }, error: null };
+  return { data: { ...result, id: id }, error: null };
 }
 
 export const getSortedPostsData = async () => {

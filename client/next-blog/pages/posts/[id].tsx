@@ -1,15 +1,16 @@
 import PostLayout from "../../components/PostLayout";
 import { getAllPostIds, getPostData } from "../../lib/posts";
 import Form from "../../components/Form";
-import { Header } from "react-bootstrap";
 import { addComment } from "../../lib/posts/comments";
+import Head from 'next/head'
+import { Container, Row, Column } from "react-bootstrap";
 
 export default function Post({ postData, error }) {
-  console.log(postData);
+  console.log("DATA", postData);
   const title = postData?.title;
   const id = postData?.id;
-  const comments = postData?.comments;
-  const body = postData?.body;
+  const comments = postData?.comments || [];
+  const body = postData?.body || "";
 
   const handleSubmit = (comment) => {
     console.log(comment);
@@ -18,19 +19,40 @@ export default function Post({ postData, error }) {
 
   if (!postData) {
     return (
-      <PostLayout error={error}>
+      <PostLayout error={null}>
         <p>Post not found</p>
       </PostLayout>
     );
   }
 
   return (
-    <PostLayout error={error}>
-      <Header> </Header>
-      <p>{body}</p>
-      <p>{comments}</p>
-      <Form onSubmit={handleSubmit} title="Add title" />
-    </PostLayout>
+    <>
+      <Head>
+        <title>{title}</title>
+        {/* 
+          To avoid duplicate tags in your head you can use the key property, 
+          which will make sure the tag is only rendered once, as in the following example:
+        */}
+        <meta property="og:title" content={title} key="title" />
+      </Head>
+      <PostLayout error={null}>
+          <Container fluid>
+            <Row>
+              <h1>{title}</h1>
+            </Row>
+            <Row>
+              <p>{body}</p>
+            </Row>
+            
+          </Container>
+          <Container fluid>
+           <Row>
+            <p>{comments}</p> 
+            </Row>
+          <Form onSubmit={handleSubmit} title="Añade tu comentario" />
+          </Container>
+      </PostLayout>
+    </>
   );
 }
 

@@ -22,7 +22,7 @@ const TextInput = (props: ITextInputProps) => {
         <Form.Label>{title}</Form.Label>
         <Form.Control
           onChange={(e) => setText(e.target.value)}
-          placeholder="Add a comment"
+          placeholder={title}
         />
       </Form.Group>
       <Button variant="primary" type="submit">

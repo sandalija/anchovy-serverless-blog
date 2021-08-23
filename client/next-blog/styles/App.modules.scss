@@ -1,0 +1,31 @@
+$theme-colors: (
+    "info": #13AA9A,
+    "danger": #CB3F34,
+    "primary": #136EAA,
+    "secondary": #1323AA
+);
+
+.post-preview {
+    background-color: rgba(240, 243, 246, 0.685);
+    margin: 8px !important;
+    padding: 16px !important;
+    // from https://getcssscan.com/css-box-shadow-examples
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+.post-preview-title {
+    font-size: large !important;
+    color: rgba(42, 45, 47) !important;
+}
+
+.centered {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+@import "~bootstrap/scss/bootstrap";
+
