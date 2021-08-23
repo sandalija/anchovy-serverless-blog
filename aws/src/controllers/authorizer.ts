@@ -52,11 +52,13 @@ const handleAuthorization = async (
 ): Promise<APIGatewayAuthorizerResult> => {
   const denyPolicy = generateDeny("me", lambdaArn);
   try {
-    if (!authHeader) {
+    console.log("Authorizating for ", authHeader);
+    if (authHeader) {
       const decoded = await verifyAuthorizationToken(authHeader);
       console.log("Decoded token: ", decoded);
 
       if (allowAdmin(decoded)) {
+        console.log("Allowed request");
         return generateAllow("me", lambdaArn);
       }
     }
