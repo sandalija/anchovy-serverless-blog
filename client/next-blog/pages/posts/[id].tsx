@@ -3,7 +3,7 @@ import { deletePost, getAllPostIds, getPostData } from "../../lib/posts";
 import CommentForm from "../../components/CommentForm";
 import { addComment } from "../../lib/comments";
 import Head from "next/head";
-import { Container, Row, Column, Button } from "react-bootstrap";
+import { Container, Row, Button } from "react-bootstrap";
 import { useRouter } from "next/router";
 import { useState } from "react";
 

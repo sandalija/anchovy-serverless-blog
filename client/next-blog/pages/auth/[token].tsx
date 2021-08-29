@@ -7,10 +7,6 @@ import { Container, Row, Spinner } from "react-bootstrap";
 
 export default function Auth({ children }) {
   const router = useRouter();
-  const style = {
-    marginRight: 10,
-  };
-
   const [urlSegments, setUrlSegments] = useState([]);
 
   useEffect(() => {
@@ -37,17 +33,20 @@ export default function Auth({ children }) {
   }, []);
 
   useEffect(() => {
-    if (localStorage.getItem("access_token") && localStorage.getItem("id_token")) {
-      router.push("/")
+    if (
+      localStorage.getItem("access_token") &&
+      localStorage.getItem("id_token")
+    ) {
+      router.push("/");
     }
-  }, [urlSegments])
+  }, [urlSegments]);
 
   return (
     <Layout>
       <div className="centered">
-        <Spinner animation="grow" style={{ width: 104, height: 104}}/>
+        <Spinner animation="grow" style={{ width: 104, height: 104 }} />
         <p>Iniciando sesión</p>
-      </div>  
+      </div>
     </Layout>
   );
 }
