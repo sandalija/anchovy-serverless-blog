@@ -19,7 +19,8 @@ provider:
         identitySource: $request.header.Authorization
         issuerUrl: https://cognito-idp.${self:provider.region}.amazonaws.com/${self:custom.cognitoPoolId} # Pool must exist before deploy
         audience:
-          - ${self:custom.cognitoClientId}
+          - Ref: CognitoUserPool
+
   iam:
     role:
       statements:
@@ -135,6 +136,13 @@ resources: # CloudFormation template syntax from here on.
         ExplicitAuthFlows:
           - ADMIN_NO_SRP_AUTH
         GenerateSecret: false
+    CognitoAdminUserGroup:
+      Type: AWS::Cognito::UserPoolGroup
+      Properties:
+        Description: Group for admins
+        GroupName: admin
+        UserPoolId:
+          Ref: CognitoUserPool
 
 plugins:
   - serverless-dynamodb-local

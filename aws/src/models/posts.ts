@@ -41,7 +41,7 @@ export const listPosts = async (): Promise<IPost[]> => {
 export const createPost = async (post: IPost): Promise<IPost> => {
   const timestamp = new Date().getTime();
   const id = uuidv4();
-  const urlSegment = toKebabCase(post.title);
+  const urlSegment = `${toKebabCase(post.title)}-${id}`;
   if (!post.title) throw new InvalidShapeErrorNameError("Missing title");
   const itemSanitized = {
     id,
@@ -56,9 +56,9 @@ export const createPost = async (post: IPost): Promise<IPost> => {
     Item: itemSanitized,
   };
 
-  // TODO: change to kebab + uuid. It is causing an error
+  /* // TODO: change to kebab + uuid. It is causing an error
   if (getPost({ urlSegment }))
-    throw new AlreadyExistingItemError("Already exists");
+    throw new AlreadyExistingItemError("Already exists"); */
 
   await DynamoDB.put(params).promise();
   console.log("created post");

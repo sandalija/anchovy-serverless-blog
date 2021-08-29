@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Col, Container, Nav, Navbar, Row } from "react-bootstrap";
-import { decodeToken } from "../lib/auth/cognito";
+import { decodeToken, isCurrentUserAdmin } from "../lib/auth/cognito";
 import { COGNITO_LOGIN, COGNITO_LOGOUT } from "../constants/cognito";
 import { FaSignOutAlt } from "react-icons/fa";
 
@@ -8,6 +8,7 @@ const AuthHeader = () => {
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [createdAt, setCreatedAt] = useState<number>();
+  const [admin, setAdmin] = useState(false);
 
   useEffect(() => {
     const getTokens = async () => {
@@ -23,6 +24,7 @@ const AuthHeader = () => {
         setEmail(id?.email || "");
         setCreatedAt(access.iat * 1000); // parse epoch
         setError("");
+        setAdmin(await isCurrentUserAdmin());
       } catch (e) {
         console.error(e);
         setError(e.message);
@@ -37,7 +39,9 @@ const AuthHeader = () => {
         <Navbar.Text>
           <Container>
             <Row>
-              <Col xs>Signed in as: {email}</Col>
+              <Col xs>
+                Signed in as: {email} {admin && "(As admin)"}
+              </Col>
             </Row>
           </Container>
         </Navbar.Text>

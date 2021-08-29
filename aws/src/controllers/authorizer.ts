@@ -4,7 +4,7 @@ import jwkToPem from "jwk-to-pem";
 import * as Authorizer from "../types/interfaces/Authorization";
 import { APIGatewayAuthorizerResult } from "aws-lambda";
 
-const cognitoPoolId = "eu-west-1_0gvj8yBLG";
+const cognitoPoolId = "eu-west-1_zyRD7oszn";
 const cognitoRegion = "eu-west-1";
 const cognitoIssuer = `https://cognito-idp.${cognitoRegion}.amazonaws.com/${cognitoPoolId}`;
 

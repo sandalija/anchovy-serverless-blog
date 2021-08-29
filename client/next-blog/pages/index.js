@@ -1,29 +1,45 @@
 import Head from "next/head";
+import { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import Layout, { siteTitle } from "../components/Layout/Layout";
+import { decodeToken, isCurrentUserAdmin } from "../lib/auth/cognito";
 //import utilStyles from "../styles/utils.module.css";
 import { getSortedPostsData } from "../lib/posts";
+import PostForm from "../components/PostForm";
 
 export default function Home({ allPostsData }) {
+  const [admin, setAdmin] = useState(false);
+
+  useEffect(() => {
+    setAdmin(isCurrentUserAdmin());
+  }, []);
+
+  const handleNewPost = (text) => {
+    console.log(text);
+  };
+
   return (
     <Layout home>
+      {admin && <PostForm />}
       {allPostsData && (
-        <section >
+        <section>
           <Container fluid>
             <h1>Entradas</h1>
-              {allPostsData.map(({ url, id, body, createdAt, title }) => (
-                <Row key={id}>
-                  <Col className="post-preview">
-                    <a href={`posts/${id}`}>
-                      <h2 className="post-preview-title"><strong>{title}</strong></h2>
-                    </a>
-                    {body}
-                    <br/>
-                    {new Date(createdAt).toLocaleString()}
-                    <br />
-                  </Col>
-                </Row>
-              ))}
+            {allPostsData.map(({ url, id, body, createdAt, title }) => (
+              <Row key={id}>
+                <Col className="post-preview">
+                  <a href={`posts/${id}`}>
+                    <h2 className="post-preview-title">
+                      <strong>{title}</strong>
+                    </h2>
+                  </a>
+                  {body}
+                  <br />
+                  {new Date(createdAt).toLocaleString()}
+                  <br />
+                </Col>
+              </Row>
+            ))}
           </Container>
         </section>
       )}

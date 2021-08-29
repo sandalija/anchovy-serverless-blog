@@ -1,21 +1,26 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { addComment } from "../lib/comments";
 
 interface ITextInputProps {
-  onSubmit(event): any;
   title: string;
+  postId: string | number;
 }
 
-const TextInput = (props: ITextInputProps) => {
-  const { onSubmit, title } = props;
+const CommentFrom = (props: ITextInputProps) => {
+  const { postId, title } = props;
 
   const [text, setText] = useState("");
 
+  const handleSubmit = (comment) => {
+    console.log(comment);
+    addComment(comment, postId);
+  };
+
   return (
     <Form
-      onSubmit={(e) => {
-        e.preventDefault();
-        onSubmit(text);
+      onSubmit={() => {
+        handleSubmit(text);
       }}
     >
       <Form.Group className="mb-3" controlId={`formGroup${title}`}>
@@ -32,4 +37,4 @@ const TextInput = (props: ITextInputProps) => {
   );
 };
 
-export default TextInput;
+export default CommentFrom;

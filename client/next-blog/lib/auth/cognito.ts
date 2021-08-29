@@ -1,9 +1,7 @@
 import { promisify } from "util";
 import * as Axios from "axios";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import jwkToPem from "jwk-to-pem";
-import { Session } from "../types/Session";
-import { decode } from "punycode";
 
 export interface ClaimVerifyRequest {
   readonly token?: string;
@@ -93,4 +91,18 @@ export const decodeToken = async (token): Promise<any> => {
   const decoded = jwt.verify(token, key.pem);
   console.log(decoded);
   return decoded;
+};
+
+export const isCurrentUserAdmin = async () => {
+  try {
+    const accessToken = localStorage.getItem("access_token");
+    console.log("access", accessToken);
+    if (!accessToken) return false;
+
+    const claims = await decodeToken(accessToken);
+    return claims && claims["cognito:groups"].includes("admin");
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
 };

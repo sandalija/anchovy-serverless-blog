@@ -1,6 +1,6 @@
 import PostLayout from "../../components/PostLayout";
 import { deletePost, getAllPostIds, getPostData } from "../../lib/posts";
-import Form from "../../components/Form";
+import CommentForm from "../../components/CommentForm";
 import { addComment } from "../../lib/comments";
 import Head from "next/head";
 import { Container, Row, Column, Button } from "react-bootstrap";
@@ -15,11 +15,6 @@ export default function Post({ postData, error }) {
   const comments = postData?.comments || [];
   const body = postData?.body || "";
   const [errorDelete, setErrorDelete] = useState("");
-
-  const handleSubmit = (comment) => {
-    console.log(comment);
-    addComment(comment, id);
-  };
 
   const handleDelete = () => {
     const ok = deletePost(id);
@@ -64,7 +59,7 @@ export default function Post({ postData, error }) {
           <Row>
             <p>{comments}</p>
           </Row>
-          <Form onSubmit={handleSubmit} title="Añade tu comentario" />
+          <CommentForm title="Añade tu comentario" postId={postData?.id} />
           <Button variant="outline-danger" onClick={() => handleDelete()}>
             Delete
           </Button>

@@ -33,6 +33,27 @@ interface IPost {
   error?: string;
 }
 
+export interface AddPostParams {
+  title: string;
+  body: string;
+}
+
+export const addPost = async (body: AddPostParams) => {
+  const uri = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/posts`;
+  console.log(uri);
+  const res = await fetch(uri, {
+    method: "POST",
+    headers: {
+      Authorization: `${localStorage.getItem("access_token")}`,
+    },
+    body: JSON.stringify({ ...body }),
+  });
+  const result = await res.json();
+  console.log("RESP");
+
+  return result.data;
+};
+
 const getPostUrl = (id?: string | number): string => {
   console.log(process.env);
   let uri = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/posts`;
