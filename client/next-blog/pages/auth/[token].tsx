@@ -3,6 +3,7 @@ import Layout from "../../components/Layout/Layout";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { cognitoTokens } from "../../constants/cognito";
+import { Container, Row, Spinner } from "react-bootstrap";
 
 export default function Auth({ children }) {
 
@@ -32,17 +33,18 @@ export default function Auth({ children }) {
     createSegments();
   }, []);
 
+  useEffect(() => {
+    if (localStorage.getItem("access_token") && localStorage.getItem("id_token")) {
+      router.push("/")
+    }
+  }, [urlSegments])
+
   return (
     <Layout>
-      {/*  <a href={href} onClick={handleClick} style={style}>
-        Enlace {href} {children}
-      </a> */}
-      <div>
-        <h1>Items page</h1>
-        {urlSegments.map((segment, key) => {
-          return <p key={`token-segment-${key}`}>{segment}</p>;
-        })}
-      </div>
+      <div className="centered">
+        <Spinner animation="grow" style={{ width: 104, height: 104}}/>
+        <p>Iniciando sesión</p>
+      </div>  
     </Layout>
   );
 }

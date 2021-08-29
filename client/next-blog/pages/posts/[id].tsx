@@ -1,19 +1,33 @@
 import PostLayout from "../../components/PostLayout";
-import { getAllPostIds, getPostData } from "../../lib/posts";
+import { deletePost, getAllPostIds, getPostData } from "../../lib/posts";
 import Form from "../../components/Form";
-import { Header } from "react-bootstrap";
-import { addComment } from "../../lib/posts/comments";
+import { addComment } from "../../lib/comments";
+import Head from "next/head";
+import { Container, Row, Column, Button } from "react-bootstrap";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 export default function Post({ postData, error }) {
-  console.log(postData);
+  console.log("DATA", postData);
+  const router = useRouter();
   const title = postData?.title;
   const id = postData?.id;
-  const comments = postData?.comments;
-  const body = postData?.body;
+  const comments = postData?.comments || [];
+  const body = postData?.body || "";
+  const [errorDelete, setErrorDelete] = useState("");
 
   const handleSubmit = (comment) => {
     console.log(comment);
     addComment(comment, id);
+  };
+
+  const handleDelete = () => {
+    const ok = deletePost(id);
+    if (!ok) {
+      setErrorDelete("No se ha podido eliminar");
+    } else {
+      router.push("/");
+    }
   };
 
   if (!postData) {
@@ -25,12 +39,38 @@ export default function Post({ postData, error }) {
   }
 
   return (
-    <PostLayout error={error}>
-      <Header> </Header>
-      <p>{body}</p>
-      <p>{comments}</p>
-      <Form onSubmit={handleSubmit} title="Add title" />
-    </PostLayout>
+    <>
+      <Head>
+        <title>{title}</title>
+        {/* 
+          To avoid duplicate tags in your head you can use the key property, 
+          which will make sure the tag is only rendered once, as in the following example:
+        */}
+        <meta property="og:title" content={title} key="title" />
+      </Head>
+      <PostLayout error={error}>
+        <Container fluid>
+          <Row>
+            <h1>{title}</h1>
+          </Row>
+          <Row>
+            <p>{body}</p>
+          </Row>
+          <Row>
+            <p className="post-date">{body}</p>
+          </Row>
+        </Container>
+        <Container fluid>
+          <Row>
+            <p>{comments}</p>
+          </Row>
+          <Form onSubmit={handleSubmit} title="Añade tu comentario" />
+          <Button variant="outline-danger" onClick={() => handleDelete()}>
+            Delete
+          </Button>
+        </Container>
+      </PostLayout>
+    </>
   );
 }
 

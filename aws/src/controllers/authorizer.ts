@@ -9,7 +9,7 @@ const cognitoPoolId = "eu-west-1_0gvj8yBLG";
 const cognitoRegion = "eu-west-1";
 const cognitoIssuer = `https://cognito-idp.${cognitoRegion}.amazonaws.com/${cognitoPoolId}`;
 
-const decodeAuthorizationToken = async (
+const verifyAuthorizationToken = async (
   authorizationToken: string
 ): Promise<JwtPayload | string> => {
   const tokenSections = authorizationToken.split(".");
@@ -18,12 +18,9 @@ const decodeAuthorizationToken = async (
     throw new Error("requested token is invalid");
   }
   const headerJSON = Buffer.from(tokenSections[0], "base64").toString("utf8");
-  console.log("Header", headerJSON);
-
   const header = JSON.parse(headerJSON);
   const keys = await getPublicKeys();
   const key = keys[header.kid];
-  console.log("key:", key);
   if (key === undefined) {
     throw new Error("claim made for unknown kid");
   }
@@ -45,41 +42,32 @@ export const handlerPost = async (event, context, callback): Promise<void> => {
   console.log("Current context:", JSON.stringify(context, null, 2));
 
   const authHeader = event.headers.authorization;
-  const lambdaArn: string = event.routeArn;
-  const decoded = await decodeAuthorizationToken(authHeader);
-  console.log("Decoded token: ", decoded);
 
-  const resultPolicy = await handleAuthorization(
-    authHeader,
-    event.routeArn,
-    allowAdmin(decoded)
-  );
+  const resultPolicy = await handleAuthorization(authHeader, event.routeArn);
   callback(null, resultPolicy);
 };
 
 const handleAuthorization = async (
   authHeader: string,
-  lambdaArn: string,
-  allow: boolean
+  lambdaArn: string
 ): Promise<APIGatewayAuthorizerResult> => {
-  let result;
+  const denyPolicy = generateDeny("me", lambdaArn);
   try {
+    console.log("Authorizating for ", authHeader);
     if (authHeader) {
-      const decoded = await decodeAuthorizationToken(authHeader);
+      const decoded = await verifyAuthorizationToken(authHeader);
       console.log("Decoded token: ", decoded);
 
-      if (allow) {
-        result = generateAllow("me", lambdaArn); // TODO: que es "me"
-      } else {
-        result = generateDeny("me", lambdaArn);
+      if (allowAdmin(decoded)) {
+        console.log("Allowed request");
+        return generateAllow("me", lambdaArn);
       }
-      return result;
     }
+    return denyPolicy;
   } catch (e) {
-    console.error(e);
+    console.error("CANNOT AUTH", e);
     return generateDeny("me", lambdaArn);
   }
-  return generateDeny("me", lambdaArn);
 };
 
 const getPublicKeys = async (): Promise<Authorizer.MapOfKidToPublicKey> => {

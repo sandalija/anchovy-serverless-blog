@@ -57,6 +57,7 @@ export const createPost = async (post: IPost): Promise<IPost> => {
     Item: itemSanitized,
   };
 
+  // TODO: change to kebab + uuid. It is causing an error
   if (getPost({ urlSegment }))
     throw new AlreadyExistingItemError("Already exists");
 
@@ -67,15 +68,18 @@ export const createPost = async (post: IPost): Promise<IPost> => {
 };
 
 export const getPostById = async (postId: string | number): Promise<IPost> => {
-  const keys: Record<string | number, string | number> = { Id: postId };
+  const keys: AWS.DynamoDB.DocumentClient.AttributeValue = { id: postId };
   return getPost(keys);
 };
 
-export const getPost = async (keys: unknown): Promise<IPost> => {
+export const getPost = async (
+  keys: AWS.DynamoDB.DocumentClient.AttributeValue
+): Promise<IPost> => {
   const params: AWS.DynamoDB.DocumentClient.GetItemInput = {
-    TableName: "CURRENT_TABLE",
+    TableName: CURRENT_TABLE,
     Key: keys,
   };
+  console.log(params);
   const data: AWS.DynamoDB.DocumentClient.GetItemOutput = await DynamoDB.get(
     params
   ).promise();

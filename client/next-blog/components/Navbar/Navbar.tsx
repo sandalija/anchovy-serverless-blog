@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const NavbarBanner = () => {
   return (
-    <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+    <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark" >
       <Container>
         <Link href="/posts/first-post">
           <Navbar.Brand>Home</Navbar.Brand>

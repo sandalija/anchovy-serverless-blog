@@ -61,6 +61,7 @@ export const readAll = async (event: any): Promise<IResponse> => {
  */
 // eslint-disable-next-line  @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 export const read = async (event: any): Promise<IResponse> => {
+  console.log(event)
   try {
     const postId = event.pathParameters.id;
 
