@@ -41,6 +41,7 @@ export const listPosts = async (): Promise<IPost[]> => {
 export const createPost = async (post: IPost): Promise<IPost> => {
   const timestamp = new Date().getTime();
   const id = uuidv4();
+  // TODO: create with random id as medium. I. ex. https://javascript.plainenglish.io/the-10-most-popular-programming-articles-july-2021-781376cd3297
   const urlSegment = toKebabCase(post.title);
   if (!post.title) throw new InvalidShapeErrorNameError("Missing title");
   const itemSanitized = {

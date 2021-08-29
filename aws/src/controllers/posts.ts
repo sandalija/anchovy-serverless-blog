@@ -24,7 +24,7 @@ interface IPost {
 export const create = async (event: any): Promise<IResponse> => {
   try {
     const data = JSON.parse(event.body);
-    if (typeof data.title !== "string" || typeof data.body !== "string") {
+    if (typeof data.title !== "string") {
       const message = "Invalid shape";
       console.error(message);
       return Response.badRequest(message);
@@ -32,7 +32,7 @@ export const create = async (event: any): Promise<IResponse> => {
 
     const post = {
       title: data.title,
-      body: data.body,
+      ...data
     };
 
     const result: IPost = await createPost(post);

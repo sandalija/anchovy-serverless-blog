@@ -5,10 +5,7 @@ import { useEffect, useState } from "react";
 import { cognitoTokens } from "../../constants/cognito";
 
 export default function Auth({ children }) {
-  const router = useRouter();
-  const style = {
-    marginRight: 10,
-  };
+
 
   const [urlSegments, setUrlSegments] = useState([]);
 
