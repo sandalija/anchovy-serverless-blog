@@ -60,3 +60,15 @@ export const getComment = async (
   const result: IComment = data.Item;
   return result;
 };
+
+export const deleteComment = async (postId: string): Promise<string> => {
+  const params = {
+    TableName: CURRENT_TABLE,
+    Key: {
+      id: postId,
+    },
+  };
+
+  await DynamoDB.delete(params).promise();
+  return "Deleted post " + postId;
+};
