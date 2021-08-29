@@ -10,6 +10,7 @@ const postsDirectory = path.join(process.cwd(), "posts");
 
 const fetchPosts = async () => {
   const uri = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/posts`;
+  console.log("Fetching data from: ", uri);
   const res = await fetch(uri);
   const result = await res.json();
 
