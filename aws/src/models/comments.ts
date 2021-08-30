@@ -36,11 +36,6 @@ export const createComment = async (
     Item: itemSanitized,
   };
 
-  // verify that the post exists
-  const post = await getPostById(postId);
-  if (!post) throw Error("Post not found");
-  console.log("READED posts", post);
-
   await DynamoDB.put(params).promise();
   console.log("Comment added");
 
@@ -61,14 +56,20 @@ export const getComment = async (
   return result;
 };
 
-export const deleteComment = async (postId: string): Promise<string> => {
+export const deleteComment = async (
+  id: string,
+  postId: string
+): Promise<any> => {
   const params = {
     TableName: CURRENT_TABLE,
     Key: {
-      id: postId,
+      id,
+      postId,
     },
   };
 
-  await DynamoDB.delete(params).promise();
-  return "Deleted post " + postId;
+  console.log(params);
+
+  const result = await DynamoDB.delete(params).promise();
+  return result;
 };

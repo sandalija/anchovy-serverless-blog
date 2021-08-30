@@ -101,7 +101,24 @@ export const deletePost = async (postId: string): Promise<string> => {
     },
   };
 
+  const existingPost = await getPostById(postId);
+  if (!existingPost) return null;
+
   await DynamoDB.delete(params).promise();
+
+  const commentsParams = {
+    TableName: COMMENTS_TABLE,
+    Key: {
+      postId,
+    },
+  };
+
+  try {
+    await DynamoDB.delete(commentsParams).promise();
+  } catch (e) {
+    console.error("Failed deleting comments", e);
+  }
+
   return "Deleted post " + postId;
 };
 

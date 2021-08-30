@@ -1,6 +1,10 @@
+import escapeHTML from "escape-html";
 import Response from "../utils/response";
-import { createComment } from "../models/comments";
+import { createComment, deleteComment } from "../models/comments";
 import { IResponse } from "../utils/response";
+import { getPostById } from "../models/posts";
+
+const trustedParams = ["body"];
 
 /**
  * Creates a comment in a post in DynamoDB
@@ -14,8 +18,8 @@ export const create = async (event: any): Promise<IResponse> => {
   console.log(event);
   try {
     const postId = event.pathParameters.postId;
-    console.log("ID:", postId);
 
+    // validate request
     const data = JSON.parse(event.body);
     if (typeof data.body !== "string") {
       const message = "Invalid shape";
@@ -23,12 +27,23 @@ export const create = async (event: any): Promise<IResponse> => {
       return Response.badRequest(message);
     }
 
+    // verify that the post exists
+    const post = await getPostById(postId);
+    if (!post) return Response.badRequest("Post not found");
+
+    //sanitize
+    Object.keys(data).forEach((key) => {
+      if (!trustedParams.includes(key)) delete data[key];
+      else data[key] = escapeHTML(data[key]);
+    });
     const comment = {
       body: data.body,
     };
 
+    // call to model
     const result = await createComment(comment, postId);
-    return Response.success(result);
+
+    return Response.created(result);
   } catch (e) {
     return Response.internalServerError(e.message);
   }
@@ -42,25 +57,15 @@ export const create = async (event: any): Promise<IResponse> => {
  * @param callback Lambda response
  */
 // eslint-disable-next-line  @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-export const deleteComment = async (event: any): Promise<IResponse> => {
+export const remove = async (event: any): Promise<IResponse> => {
   console.log(event);
   try {
     const postId = event.pathParameters.postId;
-    console.log("ID:", postId);
+    const commentId = event.pathParameters.commentId;
+    console.log("Post ID:", postId, "comment id", commentId);
 
-    const data = JSON.parse(event.body);
-    if (typeof data.body !== "string") {
-      const message = "Invalid shape";
-      console.error(message);
-      return Response.badRequest(message);
-    }
-
-    const comment = {
-      body: data.body,
-    };
-
-    const result = await createComment(comment, postId);
-    return Response.success(result);
+    const result = await deleteComment(commentId, postId);
+    return Response.success({ status: result });
   } catch (e) {
     return Response.internalServerError(e.message);
   }

@@ -4,11 +4,6 @@ import jwkToPem from "jwk-to-pem";
 import * as Authorizer from "../types/interfaces/Authorization";
 import { APIGatewayAuthorizerResult } from "aws-lambda";
 
-// TODO: add to .env
-const cognitoPoolId = "eu-west-1_0gvj8yBLG";
-const cognitoRegion = "eu-west-1";
-const cognitoIssuer = `https://cognito-idp.${cognitoRegion}.amazonaws.com/${cognitoPoolId}`;
-
 const verifyAuthorizationToken = async (
   authorizationToken: string
 ): Promise<JwtPayload | string> => {
@@ -71,6 +66,11 @@ const handleAuthorization = async (
 };
 
 const getPublicKeys = async (): Promise<Authorizer.MapOfKidToPublicKey> => {
+  const cognitoPoolId = process.env.POOL_ID;
+  const cognitoRegion = process.env.POOL_REGION;
+  const cognitoIssuer = `https://cognito-idp.${cognitoRegion}.amazonaws.com/${cognitoPoolId}`;
+
+  console.log("issuer", cognitoIssuer);
   const url = `${cognitoIssuer}/.well-known/jwks.json`;
   const publicKeys = await Axios.default.get<Authorizer.PublicKeys>(url);
   const keys = publicKeys.data.keys.reduce((agg, current) => {

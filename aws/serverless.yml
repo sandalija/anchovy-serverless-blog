@@ -17,9 +17,15 @@ provider:
       httpAuthorizerComments:
         type: jwt
         identitySource: $request.header.Authorization
-        issuerUrl: https://cognito-idp.${self:provider.region}.amazonaws.com/${self:custom.cognitoPoolId} # Pool must exist before deploy
+        issuerUrl:
+          Fn::Join:
+            - ""
+            - - "https://cognito-idp."
+              - "${opt:region, self:provider.region}"
+              - ".amazonaws.com/"
+              - Ref: CognitoUserPool
         audience:
-          - Ref: CognitoUserPool
+          - Ref: CognitoUserPoolClient
 
   iam:
     role:
@@ -38,6 +44,10 @@ provider:
 
 functions:
   authorizerHandler:
+    environment:
+      POOL_REGION: "${self:provider.region}"
+      POOL_ID:
+        Ref: CognitoUserPool
     handler: src/controllers/authorizer.handlerPost
   createPost:
     handler: src/controllers/posts.create
@@ -65,7 +75,6 @@ functions:
           path: /posts/{id}
           method: delete
           authorizer: httpAuthorizerPost
-
   createComment:
     handler: src/controllers/comments.create
     events:
@@ -73,6 +82,13 @@ functions:
           path: /comments/{postId}
           method: post
           authorizer: httpAuthorizerComments
+  deleteComment:
+    handler: src/controllers/comments.remove
+    events:
+      - httpApi:
+          path: /comments/{postId}/{commentId}
+          method: delete
+          authorizer: httpAuthorizerPost
 
 # The "Resources" your "Functions" use.  Raw AWS CloudFormation goes in here.
 resources: # CloudFormation template syntax from here on.
@@ -96,7 +112,7 @@ resources: # CloudFormation template syntax from here on.
       Type: AWS::DynamoDB::Table
       DeletionPolicy: Retain # Delete on non-production, retain in production
       Properties:
-         TableName: ${self:provider.stage}-${self:custom.namespace}-comments
+        TableName: ${self:provider.stage}-${self:custom.namespace}-comments
         AttributeDefinitions: # doc attributes
           - AttributeName: postId
             AttributeType: S
@@ -153,6 +169,7 @@ custom:
   dynamodb:
     stages: dev
   userPool: ${self:custom.namespace}-user-pool
-  cognitoPoolId: eu-west-1_0gvj8yBLG
-  cognitoClientId: 5bkjus7cj3c2v36q1cg7uh0i0q
+  cognitoPoolId:
+    Value:
+      Ref: CognitoUserPool
 # Cannot setup custom local port. See https://github.com/dherault/serverless-offline/issues/1015

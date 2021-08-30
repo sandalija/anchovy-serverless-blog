@@ -1,5 +1,6 @@
 "use strict";
 
+import escapeHTML from "escape-html";
 import {
   listPosts,
   getPostById,
@@ -13,6 +14,8 @@ interface IPost {
   [key: string]: any;
 }
 
+const trustedParams = ["title", "body"];
+
 /**
  * Creates a post in DynamoDB
  * @param event Event received in lambda. See: https://docs.aws.amazon.com/lambda/latest/dg/lambda-services.html
@@ -23,32 +26,51 @@ interface IPost {
 // eslint-disable-next-line  @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 export const create = async (event: any): Promise<IResponse> => {
   try {
+    if (!event.body) return Response.badRequest("Missing body");
+
     const data = JSON.parse(event.body);
+
+    // Validate request
     if (typeof data.title !== "string") {
       const message = "Invalid shape";
       console.error(message);
       return Response.badRequest(message);
     }
 
+    // sanitize
+    Object.keys(data).forEach((key) => {
+      if (!trustedParams.includes(key)) delete data[key];
+      else data[key] = escapeHTML(data[key]);
+    });
     const post = {
       title: data.title,
-      ...data
+      ...data,
     };
 
+    // call to model
     const result: IPost = await createPost(post);
-    return Response.success(result);
+
+    return Response.created(result);
   } catch (e) {
+    console.error(e);
     return Response.internalServerError(e.message);
   }
 };
 
+/**
+ * Get a list of all post in Dynamo
+ * @todo implement pagination
+ * @param event Event received in lambda. See: https://docs.aws.amazon.com/lambda/latest/dg/lambda-services.html
+ * @returns IResponse
+ */
 // eslint-disable-next-line  @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 export const readAll = async (event: any): Promise<IResponse> => {
+  console.log(event);
   try {
-    console.log("ENV: ", process.env.NODE_ENV);
     const data = await listPosts();
     return Response.success(data);
   } catch (e) {
+    console.error(e);
     return Response.internalServerError(e.message);
   }
 };
@@ -56,19 +78,18 @@ export const readAll = async (event: any): Promise<IResponse> => {
 /**
  * Read a post in DynamoDB
  * @param event Event received in lambda. See: https://docs.aws.amazon.com/lambda/latest/dg/lambda-services.html
- * @param context See: https://docs.aws.amazon.com/lambda/latest/dg/nodejs-context.html
- * @param
  */
 // eslint-disable-next-line  @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 export const read = async (event: any): Promise<IResponse> => {
-  console.log(event)
+  console.log(event);
   try {
     const postId = event.pathParameters.id;
 
     const data = await getPostById(postId);
-    if (!data) return Response.notFound(`${postId} not found`);
+    if (!data) return Response.notFound(`Post not found`);
     return Response.success(data);
   } catch (e) {
+    console.error(e);
     return Response.internalServerError(e.message);
   }
 };
@@ -76,8 +97,6 @@ export const read = async (event: any): Promise<IResponse> => {
 /**
  * Delete a post in DynamoDB
  * @param event Event received in lambda. See: https://docs.aws.amazon.com/lambda/latest/dg/lambda-services.html
- * @param context See: https://docs.aws.amazon.com/lambda/latest/dg/nodejs-context.html
- * @param
  */
 // eslint-disable-next-line  @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 export const remove = async (event: any): Promise<IResponse> => {
@@ -86,8 +105,10 @@ export const remove = async (event: any): Promise<IResponse> => {
     console.log("ID:", postId);
 
     const data = await deletePost(postId);
+    if (!data) return Response.notFound("Post not found");
     return Response.success(data);
   } catch (e) {
+    console.error(e);
     return Response.internalServerError(e.message);
   }
 };
