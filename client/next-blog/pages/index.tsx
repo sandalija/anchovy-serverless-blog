@@ -11,7 +11,7 @@ export const Home = ({ allPostsData }): any => {
   const [admin, setAdmin] = useState(false);
 
   const getAdmin = async () => {
-    setAdmin(isCurrentUserAdmin());
+    setAdmin(await isCurrentUserAdmin());
   };
 
   useEffect(() => {
