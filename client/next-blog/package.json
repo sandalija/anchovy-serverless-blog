@@ -5,8 +5,8 @@
   "scripts": {
     "lint": "next lint",
     "dev": "npm run lint && next dev",
-    "build": "NODE_ENV=staging next build",
-    "start": "NODE_ENV=staging next start"
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
     "@aws-amplify/ui-react": "^1.2.9",
