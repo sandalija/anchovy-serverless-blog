@@ -45,7 +45,7 @@ export default function Auth({ children }) {
     <Layout>
       <div className="centered">
         <Spinner animation="grow" style={{ width: 104, height: 104 }} />
-        <p>Iniciando sesión</p>
+        <p>Logging in</p>
       </div>
     </Layout>
   );

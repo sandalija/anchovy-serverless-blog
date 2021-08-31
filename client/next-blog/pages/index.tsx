@@ -7,24 +7,26 @@ import { decodeToken, isCurrentUserAdmin } from "../lib/auth/cognito";
 import { getSortedPostsData } from "../lib/posts";
 import PostForm from "../components/PostForm";
 
-export default function Home({ allPostsData }) {
+export const Home = ({ allPostsData }): any => {
   const [admin, setAdmin] = useState(false);
 
-  useEffect(() => {
+  const getAdmin = async () => {
     setAdmin(isCurrentUserAdmin());
-  }, []);
-
-  const handleNewPost = (text) => {
-    console.log(text);
   };
+
+  useEffect(() => {
+    getAdmin();
+  }, []);
 
   return (
     <Layout home>
-      {admin && <PostForm />}
+      <Container fluid>
+        <Row>{admin && <PostForm />}</Row>
+      </Container>
       {allPostsData && (
         <section>
           <Container fluid>
-            <h1>Entradas</h1>
+            <h1>Posts</h1>
             {allPostsData.map(({ url, id, body, createdAt, title }) => (
               <Row key={id}>
                 <Col className="post-preview">
@@ -45,7 +47,7 @@ export default function Home({ allPostsData }) {
       )}
     </Layout>
   );
-}
+};
 
 /**
  * Runs on each request
@@ -61,3 +63,5 @@ export async function getServerSideProps() {
     },
   };
 }
+
+export default Home;

@@ -81,14 +81,7 @@ export const decodeToken = async (token): Promise<any> => {
   const headerJSON = Buffer.from(tokenSections[0], "base64").toString("utf8");
   console.log("Header", headerJSON);
 
-  const header = JSON.parse(headerJSON) as TokenHeader;
-  const keys = await getPublicKeys();
-  console.log("Getted keys");
-  const key = keys[header.kid];
-  if (key === undefined) {
-    throw new Error("claim made for unknown kid");
-  }
-  const decoded = jwt.verify(token, key.pem);
+  const decoded = jwt.decode(token);
   console.log(decoded);
   return decoded;
 };

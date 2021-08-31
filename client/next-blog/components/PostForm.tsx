@@ -30,7 +30,7 @@ const PostForm = () => {
         <Form.Label>Title</Form.Label>
         <Form.Control
           onChange={(e) => setTitle(e.target.value)}
-          placeholder={"Titulo"}
+          placeholder={"Title"}
         />
       </Form.Group>
       <Form.Group className="mb-3" controlId={`formGroup${title}`}>
@@ -41,7 +41,7 @@ const PostForm = () => {
           multiple
         />
       </Form.Group>
-      <Button variant="primary" type="submit">
+      <Button style={{ marginBottom: "12px" }} variant="primary" type="submit">
         Send
       </Button>
     </Form>

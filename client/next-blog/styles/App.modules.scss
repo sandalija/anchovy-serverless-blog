@@ -31,4 +31,8 @@ $theme-colors: (
   font-size: small !important;
 }
 
+.wrappable {
+  word-wrap: break-word;
+}
+
 @import "~bootstrap/scss/bootstrap";

@@ -5,7 +5,8 @@ import { addComment } from "../../lib/comments";
 import Head from "next/head";
 import { Container, Row, Button } from "react-bootstrap";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import React, { useState } from "react";
+import sanitizeHtml from "sanitize-html";
 
 export default function Post({ postData, error }) {
   console.log("DATA", postData);
@@ -43,23 +44,26 @@ export default function Post({ postData, error }) {
         */}
         <meta property="og:title" content={title} key="title" />
       </Head>
-      <PostLayout error={error}>
+      <PostLayout error={error || errorDelete}>
         <Container fluid>
           <Row>
             <h1>{title}</h1>
           </Row>
           <Row>
-            <p>{body}</p>
+            <p className="wrappable">{body}</p>
           </Row>
           <Row>
-            <p className="post-date">{body}</p>
+            <p className="post-date wrappable">{body}</p>
           </Row>
         </Container>
         <Container fluid>
+          <h4>Comments</h4>
           <Row>
-            <p>{comments}</p>
+            {comments.map((comment) => {
+              return <p className="wrappable">{comment.body}</p>;
+            })}
           </Row>
-          <CommentForm title="Añade tu comentario" postId={postData?.id} />
+          <CommentForm title="Add a comment" postId={postData?.id} />
           <Button variant="outline-danger" onClick={() => handleDelete()}>
             Delete
           </Button>

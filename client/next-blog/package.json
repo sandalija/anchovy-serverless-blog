@@ -9,25 +9,24 @@
     "start": "NODE_ENV=staging next start"
   },
   "dependencies": {
-    "@aws-amplify/ui-react": "^1.2.9",
-    "@zeit/next-sass": "^1.0.1",
-    "aws-amplify": "^4.2.3",
+    "axios": "^0.21.1",
     "bootstrap": "^5.1.0",
-    "gray-matter": "^4.0.3",
     "jsonwebtoken": "^8.5.1",
     "jwk-to-pem": "^2.0.5",
-    "next": "11.1.0",
-    "react": "17.0.2",
+    "next": "^11.1.2",
+    "react": "~17.0.2",
     "react-bootstrap": "^1.6.1",
-    "react-dom": "17.0.2",
+    "react-dom": "~17.0.2",
     "react-icons": "^4.2.0",
     "sass": "^1.38.0"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.5",
     "@types/node": "^16.6.1",
     "@types/react": "^17.0.17",
+    "@types/sanitize-html": "^2.3.2",
     "eslint": "7.32.0",
-    "eslint-config-next": "11.1.0",
+    "eslint-config-next": "^0.2.4",
     "typescript": "^4.3.5"
   }
 }
