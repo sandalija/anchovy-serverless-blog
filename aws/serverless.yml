@@ -106,8 +106,8 @@ resources: # CloudFormation template syntax from here on.
           - AttributeName: id # WARNING!! Cannot be modified when table is up
             KeyType: HASH
         ProvisionedThroughput:
-          ReadCapacityUnits: 5
-          WriteCapacityUnits: 5
+          ReadCapacityUnits: 25
+          WriteCapacityUnits: 25
     commentsTable:
       Type: AWS::DynamoDB::Table
       DeletionPolicy: Retain # Delete on non-production, retain in production
@@ -124,8 +124,8 @@ resources: # CloudFormation template syntax from here on.
           - AttributeName: id # WARNING!! Cannot be modified when table is up
             KeyType: RANGE
         ProvisionedThroughput:
-          ReadCapacityUnits: 5
-          WriteCapacityUnits: 5
+          ReadCapacityUnits: 25
+          WriteCapacityUnits: 25
     HttpApi:
       DependsOn: CognitoUserPool
     HttpApiStage:

@@ -6,6 +6,8 @@
   "scripts": {
     "lint": "eslint . --ext .ts",
     "docs": "typedoc --out docs src",
+    "test:read": "node ./tests/readMetrics.js",
+    "test:write": "node ./tests/writeMetrics.js",
     "local": "npm run lint && serverless offline",
     "deploy": "rm -rf .build && npm run lint && npm run docs && sls deploy",
     "deploy:prod": "rm -rf .build && npm run lint && npm run docs && sls deploy --stage prod",
