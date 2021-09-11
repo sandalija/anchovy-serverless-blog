@@ -50,10 +50,8 @@ interface Claim {
 
 const cognitoPoolId = process.env.NEXT_PUBLIC_COGNITO_POOL_ID || "";
 const cognitoRegion = process.env.NEXT_PUBLIC_COGNITO_POOL_REGION || "";
-console.log("POOL ID", cognitoPoolId);
 
 const cognitoIssuer = `https://cognito-idp.${cognitoRegion}.amazonaws.com/${cognitoPoolId}`;
-console.log(cognitoIssuer);
 
 let cacheKeys: MapOfKidToPublicKey | undefined;
 const getPublicKeys = async (): Promise<MapOfKidToPublicKey> => {
@@ -72,17 +70,14 @@ const getPublicKeys = async (): Promise<MapOfKidToPublicKey> => {
 };
 
 export const decodeToken = async (token): Promise<any> => {
-  console.log("DECODING...");
   const tokenSections = token.split(".");
 
   if (tokenSections.length < 2) {
     throw new Error("requested token is invalid");
   }
   const headerJSON = Buffer.from(tokenSections[0], "base64").toString("utf8");
-  console.log("Header", headerJSON);
 
   const decoded = jwt.decode(token);
-  console.log(decoded);
   return decoded;
 };
 

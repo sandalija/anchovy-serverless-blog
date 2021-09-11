@@ -9,9 +9,9 @@ import React, { useState } from "react";
 import sanitizeHtml from "sanitize-html";
 
 export default function Post({ postData, error }) {
-  console.log("DATA", postData);
   const router = useRouter();
   const title = postData?.title;
+  const createdAt = postData.createdAt;
   const id = postData?.id;
   const comments = postData?.comments || [];
   const body = postData?.body || "";
@@ -53,7 +53,7 @@ export default function Post({ postData, error }) {
             <p className="wrappable">{body}</p>
           </Row>
           <Row>
-            <p className="post-date wrappable">{body}</p>
+            <p className="post-date wrappable">{createdAt}</p>
           </Row>
         </Container>
         <Container fluid>
@@ -75,7 +75,6 @@ export default function Post({ postData, error }) {
 
 export async function getServerSideProps({ params }) {
   const response = await getPostData(params.id);
-  console.log("Response", response);
   const data = response?.data || null;
   const error = response?.error || null;
   console.log("PSOT", data, error);

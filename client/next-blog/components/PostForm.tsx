@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { addPost } from "../lib/posts";
+import Router from "next/router";
 
 interface ITextInputProps {
   title: string;
@@ -11,9 +12,9 @@ const PostForm = () => {
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
 
-  const handleSubmit = (comment) => {
+  const handleSubmit = async (comment) => {
     console.log(comment);
-    addPost({
+    await addPost({
       title: title,
       body: text,
     });
@@ -23,7 +24,7 @@ const PostForm = () => {
     <Form
       onSubmit={(e) => {
         e.preventDefault();
-        handleSubmit(text);
+        handleSubmit(text).then(() => Router.reload());
       }}
     >
       <Form.Group className="mb-3" controlId={`formGroup-newPost`}>

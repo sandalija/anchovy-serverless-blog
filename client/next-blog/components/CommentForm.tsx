@@ -1,3 +1,4 @@
+import Router from "next/router";
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { addComment } from "../lib/comments";
@@ -12,14 +13,17 @@ const CommentFrom = (props: ITextInputProps) => {
 
   const [text, setText] = useState("");
 
-  const handleSubmit = (comment) => {
-    console.log(comment);
-    addComment(comment, postId);
+  const handleSubmit = async (comment) => {
+    console.log("creating", comment);
+    await addComment(comment, postId);
   };
 
   return (
     <Form
-      onSubmit={() => {
+      onSubmit={(e) => {
+        e.preventDefault();
+
+        console.log("summiting");
         handleSubmit(text);
       }}
     >

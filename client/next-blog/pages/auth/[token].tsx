@@ -11,7 +11,6 @@ export default function Auth({ children }) {
 
   useEffect(() => {
     const createSegments = () => {
-      console.log("called created");
       let url: any = window.location.href.split("/");
       url = url[url.length - 1];
 
@@ -21,12 +20,9 @@ export default function Auth({ children }) {
 
       url = url.split("&");
       setUrlSegments(url);
-      console.log("called created 2", url);
       url.forEach((segment) => {
         segment = segment.split("=");
-        console.log("Added", segment);
         localStorage.setItem(segment[0], segment[1]);
-        console.log("ST", localStorage.getItem(cognitoTokens[0]));
       });
     };
     createSegments();
@@ -52,9 +48,7 @@ export default function Auth({ children }) {
 }
 
 export async function getServerSideProps(props: any) {
-  console.log("PARAMS", props);
   const { params, query } = props;
-  console.log("PARAMS", params);
   return {
     props: {
       params,

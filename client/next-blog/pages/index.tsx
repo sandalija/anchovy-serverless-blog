@@ -57,7 +57,8 @@ export const Home = ({ allPostsData }): any => {
  */
 export async function getServerSideProps() {
   const allPostsData = await getSortedPostsData();
-  console.log("POSTS server side", allPostsData);
+  allPostsData.sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1));
+
   return {
     props: {
       allPostsData: allPostsData || null,

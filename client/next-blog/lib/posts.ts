@@ -41,7 +41,6 @@ export interface AddPostParams {
 
 export const addPost = async (body: AddPostParams) => {
   const uri = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/posts`;
-  console.log(uri);
   const res = await fetch(uri, {
     method: "POST",
     headers: {
@@ -50,16 +49,13 @@ export const addPost = async (body: AddPostParams) => {
     body: JSON.stringify({ ...body }),
   });
   const result = await res.json();
-  console.log("RESP");
 
   return result.data;
 };
 
 const getPostUrl = (id?: string | number): string => {
-  console.log(process.env);
   let uri = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/posts`;
   if (id) uri += `/${id}`;
-  console.log(uri);
   return uri;
 };
 
@@ -70,7 +66,6 @@ export async function getPostData(id): Promise<IPost> {
   else if (!res.ok) return { error: SERVER_ERROR_MESSAGE };
 
   const result = await res.json();
-  console.log("RESPUESTA", result);
   return { data: { ...result, id: id }, error: null };
 }
 
@@ -87,11 +82,6 @@ export const deletePost = async (id: string | number): Promise<boolean> => {
       authorization: localStorage.getItem("access_token"),
     },
   });
-  console.log(response.data);
-  console.log(response.status);
-  console.log(response.statusText);
-  console.log(response.headers);
-  console.log(response.config);
 
   return response.status >= 200 && response.status < 299;
 };
